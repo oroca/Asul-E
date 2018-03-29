@@ -52,7 +52,9 @@ err_t Asule::beginImu(void)
   if (err_code == 0)
   {
     is_imu_init = true;
-  }      
+  } 
+
+  return 0;     
 }
 
 err_t Asule::beginServo(void)
