@@ -63,14 +63,14 @@ err_t Asule::beginServo(void)
   uint16_t i;
 
 
-  servo[0].attach(_PIN_SERVO_1, 530, 1490, 2500);  
-  servo[1].attach(_PIN_SERVO_2, 480, 1371, 2381);  
-  servo[2].attach(_PIN_SERVO_3, 480, 1371, 2381);  
-  servo[3].attach(_PIN_SERVO_4, 480, 1371, 2381);  
-  servo[4].attach(_PIN_SERVO_5, 480, 1371, 2381);  
-  servo[5].attach(_PIN_SERVO_6, 480, 1371, 2381);  
-  servo[6].attach(_PIN_SERVO_7, 480, 1371, 2381);  
-  servo[7].attach(_PIN_SERVO_8, 480, 1371, 2381);  
+  servo[0].attach(_PIN_SERVO_1, 500, 1500, 2500);  
+  servo[1].attach(_PIN_SERVO_2, 500, 1500, 2500);  
+  servo[2].attach(_PIN_SERVO_3, 500, 1500, 2500);  
+  servo[3].attach(_PIN_SERVO_4, 500, 1500, 2500);  
+  servo[4].attach(_PIN_SERVO_5, 500, 1500, 2500);  
+  servo[5].attach(_PIN_SERVO_6, 500, 1500, 2500);  
+  servo[6].attach(_PIN_SERVO_7, 500, 1500, 2500);  
+  servo[7].attach(_PIN_SERVO_8, 500, 1500, 2500);  
 
 
   for (i=0; i<_PIN_SERVO_MAX; i++)
