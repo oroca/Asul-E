@@ -2,121 +2,45 @@
 
 
 
-const signed char orientationMatrix[9] = {
-   0,  1,  0,
-  -1,  0,  0,
-   0,  0,  1
-};
-
-
-
-
 
 
 Asule::Asule()
 {
-  is_imu_init = false;
 }
 
 Asule::~Asule()
 {
-
 }
 
 err_t Asule::begin(void)
 {
   err_t err = 0;
 
-  err |= beginImu();
-  err |= beginServo();
+  err |= imu.begin();
+  err |= servo.begin();
+  err |= sonic.begin();
 
   return err;
 }
 
-err_t Asule::beginImu(void)
-{
-  inv_error_t  err_code;
 
-
-  if (imu.begin() != INV_SUCCESS)
-  {
-    return ERR_BEGIN_IMU;
-  }  
-
-  err_code = imu.dmpBegin(DMP_FEATURE_6X_LP_QUAT | // Enable 6-axis quat
-                          DMP_FEATURE_SEND_RAW_ACCEL |
-                          DMP_FEATURE_SEND_CAL_GYRO  |
-                          DMP_FEATURE_GYRO_CAL, // Use gyro calibration
-                          100); // Set DMP FIFO rate to 10 Hz                                                
-  imu.dmpSetOrientation(orientationMatrix);
-  if (err_code == 0)
-  {
-    is_imu_init = true;
-  } 
-
-  return 0;     
-}
-
-err_t Asule::beginServo(void)
-{
-  err_t err = 0;
-  uint16_t i;
-
-
-  servo[0].attach(_PIN_SERVO_1, 500, 1500, 2500);  
-  servo[1].attach(_PIN_SERVO_2, 500, 1500, 2500);  
-  servo[2].attach(_PIN_SERVO_3, 500, 1500, 2500);  
-  servo[3].attach(_PIN_SERVO_4, 500, 1500, 2500);  
-  servo[4].attach(_PIN_SERVO_5, 500, 1500, 2500);  
-  servo[5].attach(_PIN_SERVO_6, 500, 1500, 2500);  
-  servo[6].attach(_PIN_SERVO_7, 500, 1500, 2500);  
-  servo[7].attach(_PIN_SERVO_8, 500, 1500, 2500);  
-
-
-  for (i=0; i<_PIN_SERVO_MAX; i++)
-  {  
-    servo[i].writeAngle(0, 0);
-  }
-
-  return err;
-}
 
 err_t Asule::update(void)
 {
   err_t err = 0;
 
 
-  if (is_imu_init == true)
+  if (imu.isInit() == true)
   {
-    err |= updateImu();
+    err |= imu.update();
   }
-
-  return err;
-}
-
-err_t Asule::updateImu(void)
-{
-  err_t err = 0;
-
-
-  // Check for new data in the FIFO
-  if ( imu.fifoAvailable() )
+  if (sonic.isInit() == true)
   {
-    // Use dmpUpdateFifo to update the ax, gx, mx, etc. values
-    if ( imu.dmpUpdateFifo() == INV_SUCCESS)
-    {
-      // computeEulerAngles can be used -- after updating the
-      // quaternion values -- to estimate roll, pitch, and yaw
-      imu.computeEulerAngles();
-      if ( imu.updateCompass() == INV_SUCCESS )
-      {
-        imu.computeCompassHeading(); 
-      }
-    }
-  }  
-
+    err |= sonic.update();
+  }
   return err;
 }
+
 
 
 
