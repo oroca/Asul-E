@@ -20,6 +20,7 @@
 
 
 
+
 #if defined(ARDUINO_ARCH_AVR)
 
 #include <avr/interrupt.h>
@@ -60,6 +61,8 @@ extern void servoISR(void);
 
 static inline void handle_interrupts(timer16_Sequence_t timer, volatile uint16_t *TCNTn, volatile uint16_t* OCRnA)
 {
+  //sei();
+
   if( Channel[timer] < 0 )
     *TCNTn = 0; // channel set to -1 indicated that refresh interval completed so reset the timer
   else{
