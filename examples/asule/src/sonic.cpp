@@ -5,7 +5,7 @@
 
 
 
-static MedianFilter sonic_filter(16, 0);
+static MedianFilter sonic_filter(8, 0); // 16, 0
 
 static const int sonic_trigger_pin = _PIN_SONIC_TRIG; //Trig pin
 static const int sonic_echo_pin    = _PIN_SONIC_ECHO; //Echo pin
@@ -20,6 +20,8 @@ static volatile uint32_t pos_tbl[2] = {0, 0};
 
 void sonicISR() 
 {
+  sei();
+  
   if (started == true)
   {
     if (digitalRead(sonic_echo_pin) == HIGH && pos_cnt == 0)
@@ -80,7 +82,7 @@ err_t Sonic::update(void)
   static uint32_t pre_time;  
 
 
-  if (millis()-pre_time >= 40)
+  if (millis()-pre_time >= 20)
   {
     uint32_t  duration;
 

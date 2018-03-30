@@ -39,7 +39,7 @@ err_t RcServo::begin(void)
   }
 
   is_init = true;
-  
+
   return err;
 }
 
@@ -48,3 +48,17 @@ bool RcServo::isInit(void)
   return is_init;  
 }
 
+void RcServo::writeAngle(uint8_t ch, int value, uint8_t speed)
+{
+  if (ch < _PIN_SERVO_MAX)
+  {
+    servo[ch].writeAngle(value, speed);
+  }
+}
+
+int RcServo::readAngle(uint8_t ch)
+{
+  if (ch >= _PIN_SERVO_MAX) return 0;
+  
+  return servo[ch].readAngle();
+}

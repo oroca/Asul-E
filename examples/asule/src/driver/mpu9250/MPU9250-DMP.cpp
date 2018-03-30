@@ -650,10 +650,13 @@ void MPU9250_DMP::computeEulerAngles(bool degrees)
   float dqz = qToFloat(qz, 30);
   
   float norm = sqrt(dqw*dqw + dqx*dqx + dqy*dqy + dqz*dqz);
-  dqw = dqw/norm;
-  dqx = dqx/norm;
-  dqy = dqy/norm;
-  dqz = dqz/norm;
+  if (norm > 0)
+  {
+    dqw = dqw/norm;
+    dqx = dqx/norm;
+    dqy = dqy/norm;
+    dqz = dqz/norm;
+  }
   
   float ysqr = dqy * dqy;
   
@@ -677,7 +680,7 @@ void MPU9250_DMP::computeEulerAngles(bool degrees)
 	{
 		pitch *= (180.0 / PI);
 		roll  *= (180.0 / PI);
-        yaw   *= (180.0 / PI);
+    yaw   *= (180.0 / PI);
 	}
 }
 
@@ -685,7 +688,7 @@ float MPU9250_DMP::computeCompassHeading(void)
 {
   if(my > 0)
   {
-	heading = 90 - atan2(mx, my) * 180 / PI;
+	  heading = 90 - atan2(mx, my) * 180 / PI;
   } 
   else if(my < 0)
   {
@@ -699,7 +702,7 @@ float MPU9250_DMP::computeCompassHeading(void)
 	}
 	else if (mx > 0)
 	{
-      heading = 0;
+     heading = 0;
 	}
   }
 

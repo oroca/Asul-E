@@ -38,7 +38,7 @@
 static servo_t servos[MAX_SERVOS];                          // static array of servo structures
 static volatile int8_t Channel[_Nbr_16timers ];             // counter for the servo being pulsed for each timer (or -1 if refresh interval)
 
-uint8_t ServoCount = 0;                                     // the total number of attached servos
+volatile uint8_t ServoCount = 0;                                     // the total number of attached servos
 
 
 static volatile void (*servo_isr_func)(void) = NULL;
@@ -427,6 +427,10 @@ void Servo::writeSpeed(uint8_t speed)
   servos[channel].ticks_speed = speed * angle_tick;
 }
 
+int Servo::readAngle(void)
+{
+  return getTickToAngle(servos[this->servoIndex].ticks);  
+}
 void Servo::wait(void)
 {
   while(1)

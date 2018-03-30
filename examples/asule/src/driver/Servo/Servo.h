@@ -123,6 +123,7 @@ public:
   int getTickToAngle(int value);
   void writeAngle(int value, uint8_t speed);
   void writeSpeed(uint8_t speed);
+  int  readAngle(void);
   void wait(void);
 
 private:
