@@ -1,0 +1,12 @@
+<launch>
+
+	<node name="redball_detection" pkg="rps" type="redball_detection.py" output="screen">
+	</node>
+
+	<node name="rps_core" pkg="rps" type="rps_core.py" output="screen">
+	</node>
+
+	<node name="SerialSend" pkg="rps" type="SerialSend.py" output="screen">
+	</node>
+
+</launch>
