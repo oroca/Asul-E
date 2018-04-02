@@ -19,19 +19,17 @@ def callback(data):
 	global num_circle
 	global pub
 	
-	tmp = data.circles
-#	print tmp
 	sam = 5
 
 	if detect == 1:
 		if count < sam:
 
 			count = count+1;
-			tmp = data.circles
-			num_circle = num_circle + len(tmp)
-			print "Number of Circle: ", len(tmp), num_circle, "\n"
+			tmp = data.numC
+			num_circle = num_circle + tmp
+			print "Number of Circle: ", tmp, num_circle, "\n"
 		elif count == sam:
-			result = num_circle/5.0;
+			result = num_circle/float(sam);
 			detect = 0
 			count = 0
 			num_circle = 0

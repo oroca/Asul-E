@@ -35,8 +35,6 @@ def redball_detection(capture):
 		capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 		capture.set(cv2.CAP_PROP_BRIGHTNESS, 0.5)
 
-		print(capture.get(cv2.CAP_PROP_BRIGHTNESS))
-
 		while cv2.waitKey(25) != ord('d') and capture.isOpened():
 			ret, frame = capture.read()
 			if not ret:
@@ -69,11 +67,8 @@ def redball_detection(capture):
 					cv2.circle(frame, (x, y), 3, (0, 255, 0), -1)
 					cv2.circle(frame, (x, y), r, (0, 0, 255), 3)
 
-				#numC = len(circles[0])
-				pub.publish(idx)
+			pub.publish(idx)
 				
-				rospy.loginfo(idx)
-
 			cv2.imshow('image', frame)			
 	
 		cv2.destroyAllWindows()
