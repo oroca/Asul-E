@@ -23,16 +23,19 @@ def redball_detection(capture):
 
 	print("Ros Start: Redball detection")
 
+
 	while not rospy.is_shutdown():
 		if capture.isOpened() == False:
 			print ('error: fail to open camera')
 			os.system('pause')
 			return
 	
-
-		capture.set(cv2.CAP_PROP_FPS, 60)
+		capture.set(cv2.CAP_PROP_FPS, 30)
 		capture.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 		capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+		capture.set(cv2.CAP_PROP_BRIGHTNESS, 0.5)
+
+		print(capture.get(cv2.CAP_PROP_BRIGHTNESS))
 
 		while cv2.waitKey(25) != ord('d') and capture.isOpened():
 			ret, frame = capture.read()
@@ -57,7 +60,6 @@ def redball_detection(capture):
 			rows, cols = frameRed.shape
 
 			circles = cv2.HoughCircles(frameRed, cv2.HOUGH_GRADIENT, 2, rows/4)
-			numC = 0
 			idx = 0
 			if circles is not None:
 				for circle in circles[0]:
@@ -68,7 +70,7 @@ def redball_detection(capture):
 					cv2.circle(frame, (x, y), r, (0, 0, 255), 3)
 
 				#numC = len(circles[0])
-				pub.publish(numC)
+				pub.publish(idx)
 				
 				rospy.loginfo(idx)
 
